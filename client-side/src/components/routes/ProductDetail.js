@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { useParams } from 'react-router'
 import { AppContext } from '../../App'
 import { useToFetchDataFromServer } from '../hooks'
-import { AddToCartComponent } from './ProductsPage'
+import { AddToCartComponent, VistCartButton } from './ProductsPage'
 
 function ProductDetail() {
     const params = useParams()
@@ -35,6 +35,7 @@ const RenderProductDetail = ({ item }) => {
             <div className='flex flex-col gap-4 w-full'>
                 <h5 className='bg-lime-400 text-center'>{price}</h5>
                 <AddToCartComponent id={id} product={title} price={price} />
+                <VistCartButton />
             </div>
         </div>
     )

@@ -2,6 +2,7 @@ import { createContext, useState } from 'react';
 import {Routes, Route} from "react-router"
 import './App.css';
 import MainNavigation from './components/MainNavigation';
+import CartPage from './components/routes/CartPage';
 import CustomerLoginPage from './components/routes/CustomerLoginPage';
 import CustomerRegistrationPage from './components/routes/CustomerRegistrationPage';
 import LandingPage from './components/routes/LandingPage';
@@ -19,7 +20,14 @@ function App() {
   const handleCart = (product, updatedData) => {
     setCart(prev => {
       console.log(updatedData, "updatedData")
-      let updateProductItemCount = prev[product]?.itemCount ? prev[product].itemCount + 1 : 1
+      let updateProductItemCount = null;
+
+      if(updatedData.decrement) {
+        updateProductItemCount = (prev[product]?.itemCount && prev[product]?.itemCount - 1) ? prev[product].itemCount - 1 : 0
+      } else {
+        updateProductItemCount = prev[product]?.itemCount ? prev[product].itemCount + 1 : 1
+      }
+
       return ({...prev, [product]: {...updatedData, "itemCount": updateProductItemCount}})
     })
   }
@@ -44,6 +52,7 @@ function App() {
           <Route path='/register' element={<CustomerRegistrationPage />} />
           <Route path='/products' element={<ProductsPage />} />
           <Route path='/products/:prodId' element={<ProductDetail />} />
+          <Route path='/cart' element={<CartPage />} />
         </Routes>
       </div>
     </AppContext.Provider>

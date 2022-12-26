@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { AppContext } from '../../App'
 import { useToFetchDataFromServer } from '../hooks'
@@ -55,35 +55,62 @@ const RenderProduct = ({ item }) => {
             <div className='flex flex-col gap-4 relative'>
                 <AddToCartComponent product={title} id={id} price={price} />
                 <button onClick={productDetailClickHandler} className='bg-lime-600'>View Details</button>
+                <VistCartButton />
             </div>
         </div>
     )
 }
 
+export const VistCartButton = () => {
+    let [itemsCount, setItemsCount] = useState();
+
+    const navigate = useNavigate()
+
+    const appCtx = useContext(AppContext);
+
+    let handleItemsCount = () => setItemsCount(Object.keys(appCtx.cart).length)
+
+    const handleVisitCart = () => {
+        navigate(`/cart`)
+    }
+
+    useEffect(() => {
+        handleItemsCount()
+    }, [appCtx.cart])
+
+    return (
+        <>
+            <button onClick={handleVisitCart} className='bg-lime-600 relative'>Visit Cart <span className='absolute left-1/4 bg-yellow-800 rounded p-1 hover:bg-fuchsia-900'>{itemsCount}</span></button>
+        </>
+    )
+}
+
 export const AddToCartComponent = ({ id, product, price }) => {
     let [addedToCart, setAddedToCart] = useState(false);
-    let [timer, setTimer] = useState(null);
 
     const appCtx = useContext(AppContext);
 
     let timerCountdown = () => {
         let countdown = setTimeout(() => {
-            if (countdown >= 600) {
-                setAddedToCart(false);
-                setTimer(null)
-            }
 
-            return () => setTimer(countdown);
+            setAddedToCart(false);
+            clearTimeout(countdown)
+
+            return () => {
+                clearTimeout(countdown)
+            };
         }, 600)
     }
 
     const handleAddToCart = () => {
         setAddedToCart(true);
 
-        timerCountdown();
-
         appCtx.handleCart(product, { id, itemPrice: price })
     }
+
+    useEffect(() => {
+        addedToCart && timerCountdown();
+    }, [addedToCart])
 
     return (
         <>
