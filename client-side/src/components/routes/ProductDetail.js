@@ -1,19 +1,19 @@
 import React, { useContext } from 'react'
 import { useParams } from 'react-router'
 import { AppContext } from '../../App'
-import { useToFetchSpecificItemFromServer } from '../hooks'
+import { useToFetchDataFromServer } from '../hooks'
+import { AddToCartComponent } from './ProductsPage'
 
 function ProductDetail() {
     const params = useParams()
-    console.log(params, "params!!")
 
     const appCtx = useContext(AppContext);
 
     const url = `${appCtx.baseUrl}/all-products/${params.prodId}`
 
-    const { data } = useToFetchSpecificItemFromServer(url)
+    const { data } = useToFetchDataFromServer(url)
 
-    console.log(data, "Product Detail")
+    // console.log(data, "Product Detail")
 
     return (
         data?.product
@@ -34,7 +34,7 @@ const RenderProductDetail = ({ item }) => {
             </div>
             <div className='flex flex-col gap-4 w-full'>
                 <h5 className='bg-lime-400 text-center'>{price}</h5>
-                <button className='bg-lime-400'>Add To Cart</button>
+                <AddToCartComponent id={id} product={title} price={price} />
             </div>
         </div>
     )

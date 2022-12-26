@@ -12,14 +12,27 @@ export const AppContext = createContext()
 
 function App() {
   const [user, setUser] = useState({});
+  const [cart, setCart] = useState({});
 
   const handleUserData = (data) => setUser(prev => ({...prev, ...data}))
+
+  const handleCart = (product, updatedData) => {
+    setCart(prev => {
+      console.log(updatedData, "updatedData")
+      let updateProductItemCount = prev[product]?.itemCount ? prev[product].itemCount + 1 : 1
+      return ({...prev, [product]: {...updatedData, "itemCount": updateProductItemCount}})
+    })
+  }
 
   const contexts = {
     baseUrl: "http://localhost:4000",
     user: user,
-    handleUserData: handleUserData
+    handleUserData: handleUserData,
+    cart: cart,
+    handleCart: handleCart
   }
+
+  console.log(cart, "Cart!")
 
   return (
     <AppContext.Provider value={contexts}>
