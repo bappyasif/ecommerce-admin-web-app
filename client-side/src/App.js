@@ -3,6 +3,7 @@ import {Routes, Route} from "react-router"
 import './App.css';
 import MainNavigation from './components/MainNavigation';
 import CartPage from './components/routes/CartPage';
+import CheckoutPage from './components/routes/CheckoutPage';
 import CustomerLoginPage from './components/routes/CustomerLoginPage';
 import CustomerRegistrationPage from './components/routes/CustomerRegistrationPage';
 import LandingPage from './components/routes/LandingPage';
@@ -32,12 +33,15 @@ function App() {
     })
   }
 
+  const resetCart = () => setCart({})
+
   const contexts = {
     baseUrl: "http://localhost:4000",
     user: user,
     handleUserData: handleUserData,
     cart: cart,
-    handleCart: handleCart
+    handleCart: handleCart,
+    resetCart: resetCart
   }
 
   console.log(cart, "Cart!")
@@ -53,6 +57,7 @@ function App() {
           <Route path='/products' element={<ProductsPage />} />
           <Route path='/products/:prodId' element={<ProductDetail />} />
           <Route path='/cart' element={<CartPage />} />
+          <Route path='/checkout' element={<CheckoutPage />} />
         </Routes>
       </div>
     </AppContext.Provider>

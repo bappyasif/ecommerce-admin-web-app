@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { FaCartPlus, FaCross, FaMinus, FaMoneyBill, FaPlus } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../../App'
 
 function CartPage() {
@@ -20,16 +21,28 @@ const RenderCart = ({ cart, appCtx }) => {
 
     let cost = 0
 
+    const navigate = useNavigate()
+
+    const handleCheckout = () => {
+        navigate("/checkout")
+    }
+
     const handleCartTotal = () => {
-        setCartTotal(cost);
+        setCartTotal(cost.toFixed(2));
     }
 
     for (let key in cart) {
-        cost += cart[key].itemCount * cart[key].itemPrice
+        if(cost === 0) {
+            cost = Number(cart[key].itemCount * cart[key].itemPrice)
+        } else {
+            cost += Number(cart[key].itemCount * cart[key].itemPrice)
+        }
 
         const item = { title: key, ...cart[key] }
         items.push(<RenderItemInCart item={item} />)
     }
+
+
 
     useEffect(() => {
         handleCartTotal()
@@ -43,7 +56,7 @@ const RenderCart = ({ cart, appCtx }) => {
                 {[...items]}
             </ul>
             <p className='bg-teal-600 font-bold text-zinc-50 text-2xl w-fit m-auto px-36'><span>Total Price: </span> <span>{cartTotal}</span></p>
-            <button className='bg-lime-400 font-bold text-2xl w-fit m-auto px-48'>Checkout</button>
+            <button onClick={handleCheckout} className='bg-lime-400 font-bold text-2xl w-fit m-auto px-48'>Checkout</button>
         </div>
     )
 }
@@ -62,7 +75,7 @@ const RenderItemInCart = ({ item }) => {
             </div>
             <div>
                 <p className='flex gap-2 items-center'><span>Price</span> <span><FaMoneyBill /></span></p>
-                <span>{Number(itemCount * itemPrice)}</span>
+                <span>{Number(itemCount * itemPrice).toFixed(2)}</span>
             </div>
         </li>
     )
