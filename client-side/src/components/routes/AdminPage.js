@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../../App';
-import { sendDataToServer } from '../fetchRequests';
+import { readDataFromServer, sendDataToServer } from '../fetchRequests';
 import { RenderFormControlFieldset, RenderFormSubmitButton } from "./CustomerLoginPage"
 
 function AdminPage() {
@@ -16,9 +16,67 @@ function AdminPage() {
             }
             {
                 appCtx.isAdmin
-                    ? "Welcome Admin"
+                    ? <AdminDashboard />
                     : null
             }
+        </div>
+    )
+}
+
+const AdminDashboard = () => {
+    return (
+        <div className='flex gap-6 px-12 py-6'>
+            <GreetingSection />
+            <OverviewSection />
+        </div>
+    )
+}
+
+const OverviewSection = () => {
+    const appCtx = useContext(AppContext);
+    const baseUrl = `${appCtx.baseUrl}`
+    const sections = [
+        { url: `${baseUrl}/all-orders`, text: "Total Orders" },
+        { url: `${baseUrl}/all-products`, text: "Total Products" },
+        { url: `${baseUrl}/all-customers`, text: "Total Customers" },
+    ];
+
+    let renderSections = () => sections.map(section => <RenderSection key={section.text} item={section} />)
+
+    return (
+        <>
+            {renderSections()}
+        </>
+    )
+}
+
+const RenderSection = ({ item }) => {
+    let [counts, setCounts] = useState(null);
+
+    const dataHandler = dataset => {
+        if (dataset?.users) {
+            setCounts(dataset.users.length)
+        } else if (dataset?.products) {
+            setCounts(dataset.products.length)
+        } else if (dataset?.orders) {
+            setCounts(dataset.orders.length)
+        }
+    }
+
+    readDataFromServer(item.url, dataHandler)
+
+    return (
+        <div>
+            <h4>{item.text}</h4>
+            <p>{counts}</p>
+        </div>
+    )
+}
+
+const GreetingSection = () => {
+    return (
+        <div>
+            <h2>Welcome, Dear Admin</h2>
         </div>
     )
 }

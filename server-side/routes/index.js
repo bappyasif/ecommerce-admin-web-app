@@ -6,7 +6,8 @@ const { newOrderIsPlaced, getListOfAllOrders } = require("../controllers/forOrde
 const { getAllAvailableProducts, getSpecificProductFromProductsList } = require("../controllers/forProducts");
 const routes = express();
 
-routes.get("/all-customers", confirmCustomerIsAuthenticate, getAllExistingCustomers);
+// routes.get("/all-customers", confirmCustomerIsAuthenticate, getAllExistingCustomers);
+routes.get("/all-customers", getAllExistingCustomers);
 routes.post("/login", customerLogin);
 routes.post("/register", customerRegistration);
 routes.post("/admin-login", adminLogin);

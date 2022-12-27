@@ -43,7 +43,7 @@ const RenderCart = ({ cart, appCtx }) => {
         }
 
         const item = { title: key, ...cart[key] }
-        items.push(<RenderItemInCart item={item} />)
+        items.push(<RenderItemInCart key={key+items.length} item={item} />)
     }
 
 
