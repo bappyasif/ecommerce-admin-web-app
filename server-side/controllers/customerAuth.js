@@ -4,6 +4,15 @@ let users = [];
 
 const getAllExistingCustomers = (req, res) => res.status(201).json({users: users})
 
+const adminLogin = (req, res) => {
+    const secret = req.body.secret;
+    if(secret === "root1234") {
+        res.status(201).json({msg: "Admin Access Is Granted", success: true})
+    } else {
+        res.status(403).json({msg: "Admin Secret Code Mismatched", success: false})
+    }
+}
+
 const customerLogin = (req, res) => {
     const mobileNumber = req.body.digits;
     const password = req.body.password;
@@ -45,5 +54,6 @@ const customerRegistration = (req, res) => {
 module.exports = {
     getAllExistingCustomers,
     customerLogin,
-    customerRegistration
+    customerRegistration,
+    adminLogin
 }

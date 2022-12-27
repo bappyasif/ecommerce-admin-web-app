@@ -2,6 +2,7 @@ import { createContext, useState } from 'react';
 import {Routes, Route} from "react-router"
 import './App.css';
 import MainNavigation from './components/MainNavigation';
+import AdminPage from './components/routes/AdminPage';
 import CartPage from './components/routes/CartPage';
 import CheckoutPage from './components/routes/CheckoutPage';
 import CustomerLoginPage from './components/routes/CustomerLoginPage';
@@ -15,6 +16,11 @@ export const AppContext = createContext()
 function App() {
   const [user, setUser] = useState({});
   const [cart, setCart] = useState({});
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  const handleIsAdminTrue = () => setIsAdmin(true);
+
+  const handleIsAdminFalse = () => setIsAdmin(false);
 
   const handleUserData = (data) => setUser(prev => ({...prev, ...data}))
 
@@ -41,7 +47,10 @@ function App() {
     handleUserData: handleUserData,
     cart: cart,
     handleCart: handleCart,
-    resetCart: resetCart
+    resetCart: resetCart,
+    isAdmin: isAdmin,
+    handleIsAdminFalse: handleIsAdminFalse,
+    handleIsAdminTrue: handleIsAdminTrue
   }
 
   console.log(cart, "Cart!")
@@ -58,6 +67,7 @@ function App() {
           <Route path='/products/:prodId' element={<ProductDetail />} />
           <Route path='/cart' element={<CartPage />} />
           <Route path='/checkout' element={<CheckoutPage />} />
+          <Route path='/admin' element={<AdminPage />} />
         </Routes>
       </div>
     </AppContext.Provider>

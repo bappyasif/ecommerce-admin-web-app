@@ -80,7 +80,11 @@ export const VistCartButton = () => {
 
     return (
         <>
-            <button onClick={handleVisitCart} className='bg-lime-600 relative'>Visit Cart <span className='absolute left-1/4 bg-yellow-800 rounded p-1 hover:bg-fuchsia-900'>{itemsCount}</span></button>
+            {
+                itemsCount
+                    ? <button onClick={handleVisitCart} className='bg-lime-600 relative'>Visit Cart <span className='absolute left-1/4 bg-yellow-800 rounded p-1 hover:bg-fuchsia-900'>{itemsCount}</span></button>
+                    : null
+            }
         </>
     )
 }

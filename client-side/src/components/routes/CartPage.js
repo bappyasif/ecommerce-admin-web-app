@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { FaCartPlus, FaCross, FaMinus, FaMoneyBill, FaPlus } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AppContext } from '../../App'
 
 function CartPage() {
@@ -24,7 +24,11 @@ const RenderCart = ({ cart, appCtx }) => {
     const navigate = useNavigate()
 
     const handleCheckout = () => {
-        navigate("/checkout")
+        if(cost === 0) {
+            alert("Add some items first :) Your Order Total Is Currently 0")
+        } else {
+            navigate("/checkout")
+        }
     }
 
     const handleCartTotal = () => {
@@ -32,7 +36,7 @@ const RenderCart = ({ cart, appCtx }) => {
     }
 
     for (let key in cart) {
-        if(cost === 0) {
+        if (cost === 0) {
             cost = Number(cart[key].itemCount * cart[key].itemPrice)
         } else {
             cost += Number(cart[key].itemCount * cart[key].itemPrice)
@@ -55,8 +59,11 @@ const RenderCart = ({ cart, appCtx }) => {
             <ul className='flex flex-col w-full'>
                 {[...items]}
             </ul>
-            <p className='bg-teal-600 font-bold text-zinc-50 text-2xl w-fit m-auto px-36'><span>Total Price: </span> <span>{cartTotal}</span></p>
-            <button onClick={handleCheckout} className='bg-lime-400 font-bold text-2xl w-fit m-auto px-48'>Checkout</button>
+            <div className='flex flex-col gap-4'>
+                <p className='bg-teal-600 font-bold text-zinc-50 text-2xl w-fit m-auto px-36'><span>Total Price: </span> <span>{cartTotal}</span></p>
+                <button onClick={handleCheckout} className='bg-lime-400 font-bold text-2xl w-fit m-auto px-44'>Checkout</button>
+                <Link className='bg-lime-400 font-bold text-2xl w-fit m-auto px-20' to={"/products"}>Add Some More Products</Link>
+            </div>
         </div>
     )
 }
@@ -67,7 +74,7 @@ const RenderItemInCart = ({ item }) => {
     console.log(title, itemCount, itemPrice)
 
     return (
-        <li key={title+id} className='flex gap-2 justify-center'>
+        <li key={title + id} className='flex gap-2 justify-center'>
             <div className='flex gap-6 items-center w-1/5'>
                 <span className='w-1/2'> {title} </span>
                 <ItemCounter item={item} />
@@ -81,17 +88,17 @@ const RenderItemInCart = ({ item }) => {
     )
 }
 
-const ItemCounter = ({item}) => {
+const ItemCounter = ({ item }) => {
     let { title, id, itemCount, itemPrice } = { ...item }
 
     const appCtx = useContext(AppContext);
-    
+
     const hadndleIncrement = () => {
-        appCtx.handleCart(title, {itemPrice: itemPrice, id: id})
+        appCtx.handleCart(title, { itemPrice: itemPrice, id: id })
     }
 
     const hadndleDecrement = () => {
-        appCtx.handleCart(title, {decrement: true, itemPrice: itemPrice, id: id})
+        appCtx.handleCart(title, { decrement: true, itemPrice: itemPrice, id: id })
     }
 
     return (
