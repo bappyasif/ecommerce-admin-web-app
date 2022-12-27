@@ -1,13 +1,14 @@
 const express = require("express");
 const { confirmCustomerIsAuthenticate } = require("../configs/forJWT");
 const { generateTokensForCustomerOnLogin, grantCustomerAnotherAccessTokenOnValidRefreshToken, logoutCustomer } = require("../controllers/authJWT");
-const { customerLogin, customerRegistration, getAllExistingCustomers, adminLogin } = require("../controllers/customerAuth");
+const { customerLogin, customerRegistration, getAllExistingCustomers, adminLogin, getSpecificCustomer } = require("../controllers/customerAuth");
 const { newOrderIsPlaced, getListOfAllOrders, getSpecificOrderItem } = require("../controllers/forOrders");
 const { getAllAvailableProducts, getSpecificProductFromProductsList } = require("../controllers/forProducts");
 const routes = express();
 
 // routes.get("/all-customers", confirmCustomerIsAuthenticate, getAllExistingCustomers);
 routes.get("/all-customers", getAllExistingCustomers);
+routes.get("/all-customers/:custId", getSpecificCustomer);
 routes.post("/login", customerLogin);
 routes.post("/register", customerRegistration);
 routes.post("/admin-login", adminLogin);

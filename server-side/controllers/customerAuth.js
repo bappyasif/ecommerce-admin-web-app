@@ -4,6 +4,12 @@ let users = [];
 
 const getAllExistingCustomers = (req, res) => res.status(201).json({users: users})
 
+const getSpecificCustomer = (req, res) => {
+    const mobileNumber = req.params.custId;
+    const user = users.find(user => user.mobileNumber === mobileNumber)
+    res.status(201).json({user: user, msg: "user extracted"})
+}
+
 const adminLogin = (req, res) => {
     const secret = req.body.secret;
     if(secret === "root1234") {
@@ -39,10 +45,11 @@ const customerLogin = (req, res) => {
 const customerRegistration = (req, res) => {
     const mobileNumber = req.body.digits;
     const plainPassword = req.body.password;
+    const customerName = req.body.name;
 
     generateHashedPasswordForCustomerRegistration(plainPassword, 10)
         .then(hashedPassword => {
-            const user = {mobileNumber: mobileNumber, hashedPassword: hashedPassword}
+            const user = {mobileNumber: mobileNumber, hashedPassword: hashedPassword, customerName: customerName}
             users.push(user)
             res.status(201).json({msg: "registration successful", user: user})
         }).catch(err => {
@@ -55,5 +62,6 @@ module.exports = {
     getAllExistingCustomers,
     customerLogin,
     customerRegistration,
-    adminLogin
+    adminLogin,
+    getSpecificCustomer
 }

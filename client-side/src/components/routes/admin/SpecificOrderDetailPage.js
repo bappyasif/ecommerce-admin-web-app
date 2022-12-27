@@ -1,33 +1,24 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { useNavigate, useParams } from 'react-router';
 import { AppContext } from '../../../App'
-import { readDataFromServer } from '../../fetchRequests';
+import { useToFetchSectionSpecificDataForAdmin } from '../../hooks';
 import { RenderBillingMethod, RenderItemDetail, RenderTotalPrice } from './AllOrdersPage';
 
 function SpecificOrderDetailPage() {
-    let [dataset, setDataset] = useState(null);
-
-    const appCtx = useContext(AppContext)
+    const appCtx = useContext(AppContext);
 
     const params = useParams();
 
-    const dataHandler = dataset => setDataset(dataset.order)
+    const url = `${appCtx.baseUrl}/all-orders/${params.orderId}`;
 
-    const beginFetching = () => {
-        const url = `${appCtx.baseUrl}/all-orders/${params.orderId}`
-        readDataFromServer(url, dataHandler)
-    }
+    const { dataset } = useToFetchSectionSpecificDataForAdmin(url)
 
-    useEffect(() => {
-        beginFetching()
-    }, [])
-
-    console.log(dataset, "OrderDetail!!")
+    // console.log(dataset, "OrderDetail!!")
 
     return (
         <div>
             <h2>Order Detail</h2>
-            <GoBackToOrders />
+            <GoBackToOrders text={"Orders"} />
             <div className='flex gap-4 justify-around border-2 my-2'>
                 <RenderOrderItemsDetail items={dataset?.items} />
                 <RenderOrderShippingAddress dataset={dataset?.shippingAddress} />
@@ -38,14 +29,14 @@ function SpecificOrderDetailPage() {
     )
 }
 
-const GoBackToOrders = () => {
+export const GoBackToOrders = ({text}) => {
     const navigate = useNavigate();
 
     const handleClick = () => {
         navigate(-1)
     }
     return (
-        <button className='bg-teal-400 px-4 hover:bg-teal-900 hover:text-white' onClick={handleClick}>Orders List</button>
+        <button className='bg-teal-400 px-4 hover:bg-teal-900 hover:text-white' onClick={handleClick}>{text} List</button>
     )
 }
 

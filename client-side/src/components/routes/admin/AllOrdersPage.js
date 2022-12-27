@@ -1,29 +1,20 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom';
 import { AppContext } from '../../../App'
-import { readDataFromServer } from '../../fetchRequests'
+import { useToFetchSectionSpecificDataForAdmin } from '../../hooks';
 
 function AllOrdersPage() {
-    const [allOrders, setAllOrders] = useState()
-
     const appCtx = useContext(AppContext);
+    
+    const url = `${appCtx.baseUrl}/all-orders`;
 
-    const dataHandler = dataset => setAllOrders(dataset.orders)
+    const {dataset} = useToFetchSectionSpecificDataForAdmin(url)
 
-    const beginFetching = () => {
-        const url = `${appCtx.baseUrl}/all-orders`
-        readDataFromServer(url, dataHandler)
-    }
-
-    useEffect(() => {
-        beginFetching()
-    }, [])
-
-    console.log(allOrders, "allorders")
+    // console.log(dataset, "allorders")
     return (
         <div>
-            AllOrdersPage {allOrders?.length}
-            <RenderAllOrdersList orders={allOrders} />
+            AllOrdersPage
+            <RenderAllOrdersList orders={dataset} />
         </div>
     )
 }
