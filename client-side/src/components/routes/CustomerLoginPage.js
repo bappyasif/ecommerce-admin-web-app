@@ -75,6 +75,7 @@ export const RenderFormControlFieldset = ({ item }) => {
                 name={item.id}
                 onChange={(e) => item.changeHandler(e, item.id)}
                 placeholder={item.placeholder}
+                required
             />
         </fieldset>
     )

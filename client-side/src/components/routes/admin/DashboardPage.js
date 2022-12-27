@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
-import { AppContext } from '../../App';
-import { readDataFromServer, sendDataToServer } from '../fetchRequests';
-import { RenderFormControlFieldset, RenderFormSubmitButton } from "./CustomerLoginPage"
+import { Link, useNavigate } from 'react-router-dom';
+import { AppContext } from '../../../App';
+import { readDataFromServer, sendDataToServer } from '../../fetchRequests';
+import { RenderFormControlFieldset, RenderFormSubmitButton } from "../CustomerLoginPage"
 
 function AdminPage() {
     const appCtx = useContext(AppContext);
@@ -36,9 +36,9 @@ const OverviewSection = () => {
     const appCtx = useContext(AppContext);
     const baseUrl = `${appCtx.baseUrl}`
     const sections = [
-        { url: `${baseUrl}/all-orders`, text: "Total Orders" },
-        { url: `${baseUrl}/all-products`, text: "Total Products" },
-        { url: `${baseUrl}/all-customers`, text: "Total Customers" },
+        { url: `${baseUrl}/all-orders`, text: "Total Orders", path: "all-orders" },
+        { url: `${baseUrl}/all-products`, text: "Total Products", path: "all-products" },
+        { url: `${baseUrl}/all-customers`, text: "Total Customers", path: "all-customers" },
     ];
 
     let renderSections = () => sections.map(section => <RenderSection key={section.text} item={section} />)
@@ -66,10 +66,12 @@ const RenderSection = ({ item }) => {
     readDataFromServer(item.url, dataHandler)
 
     return (
-        <div>
-            <h4>{item.text}</h4>
-            <p>{counts}</p>
-        </div>
+        <Link to={`/admin/${item.path}`}>
+            <div>
+                <h4>{item.text}</h4>
+                <p>{counts}</p>
+            </div>
+        </Link>
     )
 }
 

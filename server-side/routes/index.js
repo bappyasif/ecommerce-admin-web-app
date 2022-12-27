@@ -2,7 +2,7 @@ const express = require("express");
 const { confirmCustomerIsAuthenticate } = require("../configs/forJWT");
 const { generateTokensForCustomerOnLogin, grantCustomerAnotherAccessTokenOnValidRefreshToken, logoutCustomer } = require("../controllers/authJWT");
 const { customerLogin, customerRegistration, getAllExistingCustomers, adminLogin } = require("../controllers/customerAuth");
-const { newOrderIsPlaced, getListOfAllOrders } = require("../controllers/forOrders");
+const { newOrderIsPlaced, getListOfAllOrders, getSpecificOrderItem } = require("../controllers/forOrders");
 const { getAllAvailableProducts, getSpecificProductFromProductsList } = require("../controllers/forProducts");
 const routes = express();
 
@@ -22,4 +22,5 @@ routes.get("/all-products/:prodId", getSpecificProductFromProductsList)
 
 routes.post("/new-order", newOrderIsPlaced)
 routes.get("/all-orders", getListOfAllOrders)
+routes.get("/all-orders/:orderId", getSpecificOrderItem)
 module.exports = routes

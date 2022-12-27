@@ -2,7 +2,9 @@ import { createContext, useState } from 'react';
 import {Routes, Route} from "react-router"
 import './App.css';
 import MainNavigation from './components/MainNavigation';
-import AdminPage from './components/routes/AdminPage';
+import AllOrdersPage from './components/routes/admin/AllOrdersPage';
+import AdminPage from './components/routes/admin/DashboardPage';
+import SpecificOrderDetailPage from './components/routes/admin/SpecificOrderDetailPage';
 import CartPage from './components/routes/CartPage';
 import CheckoutPage from './components/routes/CheckoutPage';
 import CustomerLoginPage from './components/routes/CustomerLoginPage';
@@ -68,6 +70,10 @@ function App() {
           <Route path='/cart' element={<CartPage />} />
           <Route path='/checkout' element={<CheckoutPage />} />
           <Route path='/admin' element={<AdminPage />} />
+          <Route path='/admin/all-orders' element={<AllOrdersPage />} />
+          <Route path='/admin/all-orders/:orderId' element={<SpecificOrderDetailPage />} />
+          <Route path='/admin/all-products' element={<AdminPage />} />
+          <Route path='/admin/all-customers' element={<AdminPage />} />
         </Routes>
       </div>
     </AppContext.Provider>

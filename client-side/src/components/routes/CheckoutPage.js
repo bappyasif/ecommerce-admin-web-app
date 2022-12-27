@@ -56,7 +56,11 @@ const MoveToNextStepInCheckout = ({ cost }) => {
         if (whichStep === "Shipping") {
             setWhichStep("Billing")
         } else if (whichStep === "Billing") {
-            setWhichStep("Complete Order")
+            if(Object.values(shippingFormData).length === 5) {
+                setWhichStep("Complete Order")
+            } else {
+                alert("please fill out Shipping Form correctly")
+            }
         } else if (whichStep === "Complete Order") {
             // handleCompleteOrder()
             sendOrderRecordToServer()

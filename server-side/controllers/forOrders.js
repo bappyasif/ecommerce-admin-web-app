@@ -4,6 +4,12 @@ const getListOfAllOrders = (req, res) => {
     res.status(201).json({msg: "list of all orders", orders: orders})
 }
 
+const getSpecificOrderItem = (req, res) => {
+    const orderId = req.params.orderId;
+    const order = orders.find(item => item.id == orderId)
+    res.status(201).json({msg: "list of all orders", order: order})
+}
+
 const newOrderIsPlaced = (req, res) => {
     const orderItems = req.body.orderItems;
     const orderTotal = req.body.orderTotal;
@@ -18,5 +24,6 @@ const newOrderIsPlaced = (req, res) => {
 
 module.exports = {
     getListOfAllOrders,
-    newOrderIsPlaced
+    newOrderIsPlaced,
+    getSpecificOrderItem
 }
