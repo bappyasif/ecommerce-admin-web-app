@@ -1,7 +1,8 @@
 import React, { useContext } from 'react'
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { AppContext } from '../../../App';
 import { useToFetchSectionSpecificDataForAdmin } from '../../hooks';
+import { DeleteItem } from './AllProductsPage';
 import { GoBackToOrders } from './SpecificOrderDetailPage';
 
 function SpecificProductDetailPage() {
@@ -27,12 +28,19 @@ function SpecificProductDetailPage() {
 const RenderProductDetail = ({dataset}) => {
     const { id, title, description, price, productPicture } = { ...dataset }
     
+    const navigate = useNavigate()
+
+    const handleClick = () => {
+        navigate(-1)
+    }
+
     return (
         <div className='container m-auto'>
             <img src={productPicture} alt={title} />
             <h2>{title}</h2>
             <p>{description}</p>
             <p>{price}</p>
+            <DeleteItem id={id} handleRemoveProduct={handleClick} />
         </div>
     )
 }

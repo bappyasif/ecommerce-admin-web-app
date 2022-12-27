@@ -59,8 +59,30 @@ const readDataFromServer = (endpoint, dataUpdater) => {
         })
 }
 
+const deleteDataFromServer = (endpoint, dataUpdater) => {
+    // console.log(data, "data>><<")
+    fetch(endpoint, {
+        method: "delete",
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+    }).then(resp => resp.json())
+    .catch(err => {
+        dataUpdater({error: "request error!!"})
+        console.log("request error!!", err)
+    })
+    .then(dataset => {
+        dataUpdater(dataset)
+    }).catch(err => {
+        dataUpdater({error: "response error!!"})
+        console.log("response error!!", err)
+    })
+}
+
 export {
     sendDataToServer,
     readTokenProtectedDataFromServer,
-    readDataFromServer
+    readDataFromServer,
+    deleteDataFromServer
 }
