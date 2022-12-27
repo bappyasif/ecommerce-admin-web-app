@@ -10,6 +10,12 @@ const getSpecificCustomer = (req, res) => {
     res.status(201).json({user: user, msg: "user extracted"})
 }
 
+const removeSpecificCustomer = (req, res) => {
+    const mobileNumber = req.params.custId;
+    users = users.filter(user => user.mobileNumber != mobileNumber)
+    res.status(201).json({users: users, msg: "user removed"})
+}
+
 const adminLogin = (req, res) => {
     const secret = req.body.secret;
     if(secret === "root1234") {
@@ -47,6 +53,10 @@ const customerRegistration = (req, res) => {
     const plainPassword = req.body.password;
     const customerName = req.body.name;
 
+    const check = users.find(item => item.mobileNumber == mobileNumber)
+
+    if(check) return res.status(500).json({msg: "Mobile Number Exists Already"})
+
     generateHashedPasswordForCustomerRegistration(plainPassword, 10)
         .then(hashedPassword => {
             const user = {mobileNumber: mobileNumber, hashedPassword: hashedPassword, customerName: customerName}
@@ -63,5 +73,6 @@ module.exports = {
     customerLogin,
     customerRegistration,
     adminLogin,
-    getSpecificCustomer
+    getSpecificCustomer,
+    removeSpecificCustomer
 }

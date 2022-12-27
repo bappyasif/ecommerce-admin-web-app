@@ -4,6 +4,7 @@ import { AppContext } from '../../../App'
 import { deleteDataFromServer, sendDataToServer } from '../../fetchRequests';
 import { RenderFormControlFieldset, RenderFormSubmitButton } from "../CustomerLoginPage"
 import { useToFetchSectionSpecificDataForAdmin } from '../../hooks';
+import { DeleteItem } from './AllCustomersPage';
 
 function AllProductsPage() {
     let [data, setData] = useState([]);
@@ -111,6 +112,8 @@ const RenderProducts = ({ dataset, handleRemoveProduct }) => {
 
 const RenderItem = ({ item, handleRemoveProduct }) => {
     const { id, title, description, price, productPicture } = { ...item }
+    const appCtx = useContext(AppContext);
+    const url = `${appCtx.baseUrl}/all-products/${id}`
     return (
         <li className='flex flex-col gap-4 border-2 border-teal-400 my-2'>
             <Link to={`${id}`}>
@@ -121,28 +124,28 @@ const RenderItem = ({ item, handleRemoveProduct }) => {
                     <p>{price}</p>
                 </div>
             </Link>
-            <DeleteItem id={id} handleRemoveProduct={handleRemoveProduct} />
+            <DeleteItem uniqueId={id} handleRemoveItem={handleRemoveProduct} url={url} />
         </li>
 
     )
 }
 
-export const DeleteItem = ({ id, handleRemoveProduct }) => {
-    const appCtx = useContext(AppContext);
+// export const DeleteItem = ({ id, handleRemoveProduct }) => {
+//     const appCtx = useContext(AppContext);
 
-    const dataHandler = results => {
-        console.log(results)
-        handleRemoveProduct && handleRemoveProduct(id);
-    }
+//     const dataHandler = results => {
+//         console.log(results)
+//         handleRemoveProduct && handleRemoveProduct(id);
+//     }
 
-    const handleClick = () => {
-        const url = `${appCtx.baseUrl}/all-products/${id}`
-        deleteDataFromServer(url, dataHandler)
-    }
+//     const handleClick = () => {
+//         const url = `${appCtx.baseUrl}/all-products/${id}`
+//         deleteDataFromServer(url, dataHandler)
+//     }
 
-    return (
-        <button onClick={handleClick}>Delete</button>
-    )
-}
+//     return (
+//         <button onClick={handleClick}>Delete</button>
+//     )
+// }
 
 export default AllProductsPage

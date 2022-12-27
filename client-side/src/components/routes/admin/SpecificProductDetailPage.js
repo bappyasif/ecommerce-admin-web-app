@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { useNavigate, useParams } from 'react-router';
 import { AppContext } from '../../../App';
 import { useToFetchSectionSpecificDataForAdmin } from '../../hooks';
-import { DeleteItem } from './AllProductsPage';
+import { DeleteItem } from './AllCustomersPage';
 import { GoBackToOrders } from './SpecificOrderDetailPage';
 
 function SpecificProductDetailPage() {
@@ -34,13 +34,16 @@ const RenderProductDetail = ({dataset}) => {
         navigate(-1)
     }
 
+    const appCtx = useContext(AppContext);
+    const url = `${appCtx.baseUrl}/all-products/${id}`
+
     return (
         <div className='container m-auto'>
             <img src={productPicture} alt={title} />
             <h2>{title}</h2>
             <p>{description}</p>
             <p>{price}</p>
-            <DeleteItem id={id} handleRemoveProduct={handleClick} />
+            <DeleteItem uniqueId={id} handleRemoveItem={handleClick} url={url} />
         </div>
     )
 }

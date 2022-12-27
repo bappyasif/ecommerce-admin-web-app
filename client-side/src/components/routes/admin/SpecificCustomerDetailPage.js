@@ -1,7 +1,8 @@
 import React, { useContext } from 'react'
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { AppContext } from '../../../App';
 import { useToFetchSectionSpecificDataForAdmin } from '../../hooks';
+import { DeleteItem } from './AllCustomersPage';
 import { RenderItemDetail } from './AllOrdersPage';
 import { GoBackToOrders } from './SpecificOrderDetailPage';
 
@@ -28,12 +29,23 @@ function SpecificCustomerDetailPage() {
 const RenderCustomer = ({ dataset }) => {
     const { mobileNumber, hashedPassword, customerName } = { ...dataset }
 
+    const navigate = useNavigate();
+
+    const appCtx = useContext(AppContext);
+
+    const handleClick = () => {
+        navigate(-1)
+    }
+
+    const url = `${appCtx.baseUrl}/all-customers/${mobileNumber}`
+
     return (
         <div>
             <img src='https://source.unsplash.com/featured/300x202' />
             <RenderItemDetail preText={"Customer Name: "} value={customerName} />
             <RenderItemDetail preText={"Mobile Number: "} value={mobileNumber} />
             <RenderItemDetail preText={"Hashed Password: "} value={hashedPassword} />
+            <DeleteItem uniqueId={mobileNumber} url={url} handleRemoveItem={handleClick} />
         </div>
     )
 }
