@@ -18,9 +18,10 @@ function SpecificProductDetailPage() {
 
     return (
         <div>
-            <h2>Product Details</h2>
+            <h2 className='text-4xl py-2 font-semibold bg-neutral-600 mb-4'>Product Details</h2>
             <GoBackToOrders text={"Products"} />
             <RenderProductDetail dataset={dataset} />
+            <GoBackToOrders text={"Products"} />
         </div>
     )
 }
@@ -44,7 +45,7 @@ const RenderProductDetail = ({ dataset }) => {
                 <img className='rounded-t-lg w-full h-full' src={productPicture} alt={title} />
                 <h2 className='text-4xl text-justify mb-4'>{title}</h2>
                 <p className='text-justify text-2xl'>{description}</p>
-                <p className='bg-amber-600 text-center text-2xl my-4'>{price}</p>
+                <p className='bg-amber-600 text-center text-2xl my-4 px-4 rounded-sm'>{price}</p>
                 <DeleteItem uniqueId={id} handleRemoveItem={handleClick} url={url} />
             </div>
         </div>

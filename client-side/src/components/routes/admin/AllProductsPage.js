@@ -34,10 +34,10 @@ function AllProductsPage() {
         handleData()
     }, [dataset])
 
-    console.log(dataset, "Products!!", data)
+    // console.log(dataset, "Products!!", data)
     return (
         <div>
-            <h2>List Of All Products</h2>
+            {/* <h2>List Of All Products</h2> */}
             {/* <RenderProducts dataset={dataset} /> */}
             <AddNewProduct handleAddProduct={handleAddProduct} />
             <RenderProducts dataset={data} handleRemoveProduct={handleRemoveProduct} />
@@ -52,7 +52,7 @@ const AddNewProduct = ({ handleAddProduct }) => {
 
     return (
         <>
-            <button className='bg-orange-800 relative' onClick={handleClick}>Click Here To {`${beginEntry ? "Close" : "Open"} `}Form</button>
+            <button className='text-4xl px-4 py-2 font-extrabold m-4 bg-orange-800 hover:bg-pink-600 relative' onClick={handleClick}>Click Here To {`${beginEntry ? "Close" : "Open"} `} Product Form</button>
             {beginEntry ? <RenderAddProductForm handleAddProduct={handleAddProduct} /> : null}
         </>
     )
@@ -91,9 +91,9 @@ const RenderAddProductForm = ({ handleAddProduct }) => {
     }
 
     return (
-        <div className='z-10 bg-lime-600 p-4'>
+        <div className='z-10 bg-slate-400 p-4 absolute left-1/3 w-2/6 rounded'>
             <form method='post' onSubmit={handleSubmit}>
-                <legend>Enter All Fields Correctly</legend>
+                <legend className='text-2xl'>Enter All Fields Correctly</legend>
                 {renderFormControls()}
                 <RenderFormSubmitButton text={"Add Product"} />
             </form>
@@ -115,7 +115,7 @@ const RenderItem = ({ item, handleRemoveProduct }) => {
     const appCtx = useContext(AppContext);
     const url = `${appCtx.baseUrl}/all-products/${id}`
     return (
-        <li className='flex flex-col gap-4 border-2 border-teal-400 my-2
+        <li className='flex flex-col gap-4 border-2 border-teal-800 my-2
                        rounded-lg shadow-lg bg-slate-200 w-1/3 py-8 px-16'
         >
             <div className='flex justify-between gap-11'>
@@ -124,7 +124,7 @@ const RenderItem = ({ item, handleRemoveProduct }) => {
                     <div className='flex flex-col gap-6 pb-20'>
                         <h4 className='text-4xl text-justify mb-4'>{title}</h4>
                         <p className='text-justify text-xl'>{description}</p>
-                        <p className='text-2xl my-4'>{price}</p>
+                        <p className="text-2xl my-4 before:content-['$'] before:pr-4">{price}</p>
                     </div>
                 </Link>
             </div>

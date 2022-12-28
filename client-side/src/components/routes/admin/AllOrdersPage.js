@@ -13,7 +13,6 @@ function AllOrdersPage() {
     // console.log(dataset, "allorders")
     return (
         <div>
-            AllOrdersPage
             <RenderAllOrdersList orders={dataset} />
         </div>
     )
@@ -23,7 +22,7 @@ const RenderAllOrdersList = ({ orders }) => {
     let renderOrders = () => orders?.map(order => <RenderOrderListItem key={order.id} dataset={order} />)
     return (
         <div>
-            <h2>All Orders That Are Currently Available</h2>
+            <h2 className='text-2xl bg-pink-900 py-2 font-bold'>All Orders That Are Currently Available</h2>
             <ul>
                 {renderOrders()}
             </ul>

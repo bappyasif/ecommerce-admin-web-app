@@ -31,7 +31,7 @@ function CustomerLoginPage() {
     // console.log(appCtx.user, "logged USER!!")
 
     return (
-        <div className='flex justify-center my-16'>
+        <div className='flex justify-center'>
             <LoginForm commenceLogin={commenceCustomerLogin} />
         </div>
     )
@@ -59,7 +59,7 @@ const LoginForm = ({commenceLogin}) => {
     return (
         <form 
             method='post' onSubmit={handleSubmit}
-            className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+            className="bg-zinc-400 shadow-md rounded px-8 pt-6 pb-8 mb-4"
         >
             <legend className='text-2xl'>Enter your registered Mobile Number and Password to login</legend>
             {renderFormControls()}
@@ -72,11 +72,11 @@ export const RenderFormControlFieldset = ({ item }) => {
     return (
         <fieldset className='my-6'>
             <label 
-                className='block text-gray-700 text-sm font-bold mb-2 text-justify'
+                className='block text-gray-700 text-lg font-bold mb-2 text-justify'
                 htmlFor={item.id}
             >{item.label}</label>
             <input
-                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"'
+                className='shadow appearance-none border rounded text-xl w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"'
                 type={item.type}
                 id={item.id}
                 name={item.id}

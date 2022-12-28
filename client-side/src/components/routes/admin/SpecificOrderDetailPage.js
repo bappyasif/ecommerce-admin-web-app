@@ -17,8 +17,10 @@ function SpecificOrderDetailPage() {
 
     return (
         <div>
-            <h2>Order Detail</h2>
+            <h2 className='text-4xl py-2 font-semibold bg-neutral-600 mb-4'>Order Detail</h2>
+            
             <GoBackToOrders text={"Orders"} />
+
             <div className='flex justify-around gap-4 border-2 my-2 pb-8 pt-4
         bg-gradient-to-tl from-cyan-500 to-blue-500'>
                 <div>
@@ -30,6 +32,8 @@ function SpecificOrderDetailPage() {
                     <RenderTotalPrice price={dataset?.totalPrice} />
                 </div>
             </div>
+            
+            <GoBackToOrders text={"Orders"} />
         </div>
     )
 }
@@ -41,7 +45,7 @@ export const GoBackToOrders = ({ text }) => {
         navigate(-1)
     }
     return (
-        <button className='bg-teal-400 px-4 hover:bg-teal-900 hover:text-white' onClick={handleClick}>{text} List</button>
+        <button className='bg-teal-400 m-4 py-2 px-4 text-4xl hover:bg-teal-900 hover:text-white' onClick={handleClick}>{text} List</button>
     )
 }
 

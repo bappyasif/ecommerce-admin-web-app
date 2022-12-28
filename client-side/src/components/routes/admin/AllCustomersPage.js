@@ -52,7 +52,7 @@ const AddNewCustomer = ({ handleAddCustomer }) => {
 
     return (
         <>
-            <button className='bg-orange-800 relative' onClick={handleClick}>Click Here To {`${beginEntry ? "Close" : "Open"} `}Form</button>
+            <button className='text-4xl px-4 py-2 font-extrabold m-4 bg-orange-800 hover:bg-pink-600 relative' onClick={handleClick}>Click Here To {`${beginEntry ? "Close" : "Open"} `} Customer Form</button>
             {beginEntry ? <RenderAddCustomerForm addNewCustomer={handleAddCustomer} /> : null}
         </>
     )
@@ -94,9 +94,9 @@ const RenderAddCustomerForm = ({ addNewCustomer }) => {
     }
 
     return (
-        <div className='z-10 bg-lime-600 p-4'>
+        <div className='z-10 bg-slate-400 p-4 absolute left-1/3 w-2/6 rounded'>
             <form method='post' onSubmit={handleSubmit}>
-                <legend>Enter All Fields Correctly</legend>
+                <legend className='text-2xl'>Enter All Fields Correctly</legend>
                 {renderFormControls()}
                 <RenderFormSubmitButton text={"Add Customer"} />
             </form>
@@ -132,7 +132,8 @@ const RenderCustomer = ({ item, handleRemoveCustomer }) => {
         rounded-lg shadow-lg bg-slate-200 w-1/3 py-8 px-16'>
             <Link to={mobileNumber}>
                 <RenderItemDetail preText={"Customer Name: "} value={customerName} />
-                <img className='rounded-t-lg max-w-min h-full m-auto' src='https://source.unsplash.com/featured/300x202' />
+                {/* <img className='rounded-t-lg max-w-min h-full m-auto' src='https://source.unsplash.com/featured/300x202' /> */}
+                <img className="rounded-lg shadow-lg antialiased" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" />
             </Link>
             <DeleteItem uniqueId={mobileNumber} url={url} handleRemoveItem={handleRemoveCustomer} />
         </div>
@@ -150,7 +151,7 @@ export const DeleteItem = ({ uniqueId, url, handleRemoveItem }) => {
     }
 
     return (
-        <button className='p-2 mt-8 text-3xl font-extrabold bg-pink-900 hover:bg-pink-600 hover:text-white' onClick={handleClick}>Delete</button>
+        <button className='p-2 mt-8 text-3xl font-extrabold rounded px-6 bg-pink-900 hover:bg-pink-600 hover:text-white' onClick={handleClick}>Delete</button>
     )
 }
 
