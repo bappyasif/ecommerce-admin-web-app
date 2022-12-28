@@ -25,9 +25,9 @@ function SpecificProductDetailPage() {
     )
 }
 
-const RenderProductDetail = ({dataset}) => {
+const RenderProductDetail = ({ dataset }) => {
     const { id, title, description, price, productPicture } = { ...dataset }
-    
+
     const navigate = useNavigate()
 
     const handleClick = () => {
@@ -38,12 +38,15 @@ const RenderProductDetail = ({dataset}) => {
     const url = `${appCtx.baseUrl}/all-products/${id}`
 
     return (
-        <div className='container m-auto'>
-            <img src={productPicture} alt={title} />
-            <h2>{title}</h2>
-            <p>{description}</p>
-            <p>{price}</p>
-            <DeleteItem uniqueId={id} handleRemoveItem={handleClick} url={url} />
+        <div className='max-w-fit m-auto'>
+            <div className='flex flex-col justify-center items-center
+                            rounded-lg shadow-lg bg-slate-200 p-8 px-16 mt-11'>
+                <img className='rounded-t-lg w-full h-full' src={productPicture} alt={title} />
+                <h2 className='text-4xl text-justify mb-4'>{title}</h2>
+                <p className='text-justify text-2xl'>{description}</p>
+                <p className='bg-amber-600 text-center text-2xl my-4'>{price}</p>
+                <DeleteItem uniqueId={id} handleRemoveItem={handleClick} url={url} />
+            </div>
         </div>
     )
 }

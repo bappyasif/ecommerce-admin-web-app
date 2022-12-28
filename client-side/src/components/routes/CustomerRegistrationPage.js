@@ -26,7 +26,7 @@ function CustomerRegistrationPage() {
     // console.log(appCtx.user, "Registered USER!!")
 
     return (
-        <div className='flex justify-center'>
+        <div className='flex justify-center my-16'>
             <RegistrationForm commenceRegistration={commenceCustomerRegistration} />
         </div>
     )
@@ -58,7 +58,7 @@ const RegistrationForm = ({ commenceRegistration }) => {
             className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
             method='post' onSubmit={handleFormSubmit}
         >
-            <legend>
+            <legend className='text-2xl'>
                 <p>You need to use a Bangladesh based mobile number to register</p>
                 <p>You will be using this to Login to your account later on</p>
             </legend>

@@ -45,7 +45,7 @@ function AllCustomersPage() {
     )
 }
 
-const AddNewCustomer = ({handleAddCustomer}) => {
+const AddNewCustomer = ({ handleAddCustomer }) => {
     let [beginEntry, setBeginEntry] = useState(false)
 
     const handleClick = () => setBeginEntry(prev => !prev)
@@ -58,7 +58,7 @@ const AddNewCustomer = ({handleAddCustomer}) => {
     )
 }
 
-const RenderAddCustomerForm = ({addNewCustomer}) => {
+const RenderAddCustomerForm = ({ addNewCustomer }) => {
     let [data, setData] = useState(null);
 
     const appCtx = useContext(AppContext);
@@ -66,27 +66,27 @@ const RenderAddCustomerForm = ({addNewCustomer}) => {
     const userInputChangeHandler = (evt, whichFormControl) => setData(prev => ({ ...prev, [whichFormControl]: evt.target.value }))
 
     const formControls = [
-        {id: "name", label: "Full Name", type: "text", placeholder: "e.g. Jelo Lohan", changeHandler: userInputChangeHandler},
-        {id: "digits", label: "Mobile Number", type: "tel", placeholder: "e.g. +88012345678901", changeHandler: userInputChangeHandler},
-        {id: "password", label: "Account Password", type: "password", placeholder: "e.g. secret password", changeHandler: userInputChangeHandler},
+        { id: "name", label: "Full Name", type: "text", placeholder: "e.g. Jelo Lohan", changeHandler: userInputChangeHandler },
+        { id: "digits", label: "Mobile Number", type: "tel", placeholder: "e.g. +88012345678901", changeHandler: userInputChangeHandler },
+        { id: "password", label: "Account Password", type: "password", placeholder: "e.g. secret password", changeHandler: userInputChangeHandler },
     ];
 
     let renderFormControls = () => formControls?.map(item => <RenderFormControlFieldset key={item.id} item={item} />)
 
     const handleServerResponse = (results) => {
         // console.log(results)
-        if(results?.user) {
+        if (results?.user) {
             addNewCustomer(results.user)
-        } else if(results.msg && !results?.user) {
+        } else if (results.msg && !results?.user) {
             alert(results.msg)
         }
     }
-    
+
     const beginEntry = () => {
         const url = `${appCtx.baseUrl}/register`
         sendDataToServer(url, data, handleServerResponse)
     }
-    
+
     const handleSubmit = evt => {
         evt.preventDefault();
         console.log(data, "formdaata!!")
@@ -107,7 +107,7 @@ const RenderAddCustomerForm = ({addNewCustomer}) => {
 const RenderCustomersList = ({ dataset, handleRemoveCustomer }) => {
     let renderCustomers = () => dataset?.map(item => <RenderCustomer key={item.mobileNumber} item={item} handleRemoveCustomer={handleRemoveCustomer} />)
     return (
-        <div>
+        <div className='flex gap-11 flex-wrap justify-around'>
             {
                 dataset?.length === 0
                     ?
@@ -128,10 +128,11 @@ const RenderCustomer = ({ item, handleRemoveCustomer }) => {
     const url = `${appCtx.baseUrl}/all-customers/${mobileNumber}`
 
     return (
-        <div>
+        <div className='flex flex-col gap-4 border-2 border-teal-400 my-2
+        rounded-lg shadow-lg bg-slate-200 w-1/3 py-8 px-16'>
             <Link to={mobileNumber}>
                 <RenderItemDetail preText={"Customer Name: "} value={customerName} />
-                <img src='https://source.unsplash.com/featured/300x202' />
+                <img className='rounded-t-lg max-w-min h-full m-auto' src='https://source.unsplash.com/featured/300x202' />
             </Link>
             <DeleteItem uniqueId={mobileNumber} url={url} handleRemoveItem={handleRemoveCustomer} />
         </div>
@@ -149,7 +150,7 @@ export const DeleteItem = ({ uniqueId, url, handleRemoveItem }) => {
     }
 
     return (
-        <button onClick={handleClick}>Delete</button>
+        <button className='p-2 mt-8 text-3xl font-extrabold bg-pink-900 hover:bg-pink-600 hover:text-white' onClick={handleClick}>Delete</button>
     )
 }
 

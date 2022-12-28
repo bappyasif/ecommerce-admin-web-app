@@ -45,7 +45,7 @@ function AllProductsPage() {
     )
 }
 
-const AddNewProduct = ({handleAddProduct}) => {
+const AddNewProduct = ({ handleAddProduct }) => {
     let [beginEntry, setBeginEntry] = useState(false)
 
     const handleClick = () => setBeginEntry(prev => !prev)
@@ -58,7 +58,7 @@ const AddNewProduct = ({handleAddProduct}) => {
     )
 }
 
-const RenderAddProductForm = ({handleAddProduct}) => {
+const RenderAddProductForm = ({ handleAddProduct }) => {
     let [data, setData] = useState(null);
 
     const appCtx = useContext(AppContext);
@@ -78,12 +78,12 @@ const RenderAddProductForm = ({handleAddProduct}) => {
         // console.log(results)
         handleAddProduct(results.product)
     }
-    
+
     const beginEntry = () => {
         const url = `${appCtx.baseUrl}/all-products`
         sendDataToServer(url, data, handleServerResponse)
     }
-    
+
     const handleSubmit = evt => {
         evt.preventDefault();
         console.log(data, "formdaata!!")
@@ -115,15 +115,19 @@ const RenderItem = ({ item, handleRemoveProduct }) => {
     const appCtx = useContext(AppContext);
     const url = `${appCtx.baseUrl}/all-products/${id}`
     return (
-        <li className='flex flex-col gap-4 border-2 border-teal-400 my-2'>
-            <Link to={`${id}`}>
-                <img src={productPicture} alt={title} />
-                <div className='flex flex-col gap-6'>
-                    <h4>{title}</h4>
-                    <p>{description}</p>
-                    <p>{price}</p>
-                </div>
-            </Link>
+        <li className='flex flex-col gap-4 border-2 border-teal-400 my-2
+                       rounded-lg shadow-lg bg-slate-200 w-1/3 py-8 px-16'
+        >
+            <div className='flex justify-between gap-11'>
+                <img className='rounded-t-lg max-w-min h-full' src={productPicture} alt={title} />
+                <Link to={`${id}`}>
+                    <div className='flex flex-col gap-6 pb-20'>
+                        <h4 className='text-4xl text-justify mb-4'>{title}</h4>
+                        <p className='text-justify text-xl'>{description}</p>
+                        <p className='text-2xl my-4'>{price}</p>
+                    </div>
+                </Link>
+            </div>
             <DeleteItem uniqueId={id} handleRemoveItem={handleRemoveProduct} url={url} />
         </li>
 

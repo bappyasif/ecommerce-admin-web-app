@@ -24,7 +24,7 @@ const RenderProducts = ({ list }) => {
     return (
         <div>
             <h1>All Products</h1>
-            <div className='flex justify-start gap-6 flex-wrap'>
+            <div className='flex justify-between gap-6 flex-wrap px-20'>
                 {renderList()}
             </div>
         </div>
@@ -41,20 +41,22 @@ const RenderProduct = ({ item }) => {
     }
 
     return (
-        <div className='card'>
+        <div 
+            className='rounded-lg shadow-lg bg-slate-200 w-1/4 p-8 px-16'
+        >
             <Link to={`/products/${id}`}>
                 <div className='text-justify'>
-                    <h4>{title}</h4>
-                    <img src={productPicture} />
+                    <h4 className='text-4xl text-justify mb-4'>{title}</h4>
+                    <img className='rounded-t-lg w-full' src={productPicture} style={{margin: "auto"}} />
                 </div>
             </Link>
             <div>
-                <p className='text-justify'>{description}</p>
-                <h5>{price}</h5>
+                <p className='text-justify text-xl'>{description}</p>
+                <h5 className='text-2xl my-4'>{price}</h5>
             </div>
             <div className='flex flex-col gap-4 relative'>
                 <AddToCartComponent product={title} id={id} price={price} />
-                <button onClick={productDetailClickHandler} className='bg-lime-600'>View Details</button>
+                <button onClick={productDetailClickHandler} className='font-extrabold bg-lime-600 hover:bg-lime-900 hover:text-white'>View Details</button>
                 <VistCartButton />
             </div>
         </div>
@@ -82,7 +84,7 @@ export const VistCartButton = () => {
         <>
             {
                 itemsCount
-                    ? <button onClick={handleVisitCart} className='bg-lime-600 relative'>Visit Cart <span className='absolute left-1/4 bg-yellow-800 rounded p-1 hover:bg-fuchsia-900'>{itemsCount}</span></button>
+                    ? <button onClick={handleVisitCart} className='font-extrabold bg-lime-600 hover:bg-lime-900 hover:text-white relative'>Visit Cart <span className='absolute left-1/4 bg-yellow-800 rounded p-1 hover:bg-fuchsia-900'>{itemsCount}</span></button>
                     : null
             }
         </>
@@ -118,7 +120,7 @@ export const AddToCartComponent = ({ id, product, price }) => {
 
     return (
         <>
-            <button onClick={handleAddToCart} className='bg-lime-400'>Add To Cart</button>
+            <button onClick={handleAddToCart} className='font-extrabold bg-lime-400 hover:bg-lime-900 hover:text-white'>Add To Cart</button>
             {
                 addedToCart
                     ? <span className='absolute right-0 bg-amber-400'>Product Added</span>

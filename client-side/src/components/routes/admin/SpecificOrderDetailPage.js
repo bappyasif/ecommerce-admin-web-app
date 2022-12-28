@@ -19,17 +19,22 @@ function SpecificOrderDetailPage() {
         <div>
             <h2>Order Detail</h2>
             <GoBackToOrders text={"Orders"} />
-            <div className='flex gap-4 justify-around border-2 my-2'>
-                <RenderOrderItemsDetail items={dataset?.items} />
-                <RenderOrderShippingAddress dataset={dataset?.shippingAddress} />
-                <RenderBillingMethod billingMethod={dataset?.billingMethod} />
-                <RenderTotalPrice price={dataset?.totalPrice} />
+            <div className='flex justify-around gap-4 border-2 my-2 pb-8 pt-4
+        bg-gradient-to-tl from-cyan-500 to-blue-500'>
+                <div>
+                    <RenderOrderItemsDetail items={dataset?.items} />
+                    <RenderOrderShippingAddress dataset={dataset?.shippingAddress} />
+                </div>
+                <div className='flex flex-col justify-between'>
+                    <RenderBillingMethod billingMethod={dataset?.billingMethod} />
+                    <RenderTotalPrice price={dataset?.totalPrice} />
+                </div>
             </div>
         </div>
     )
 }
 
-export const GoBackToOrders = ({text}) => {
+export const GoBackToOrders = ({ text }) => {
     const navigate = useNavigate();
 
     const handleClick = () => {
@@ -44,14 +49,14 @@ const RenderOrderShippingAddress = ({ dataset }) => {
     const { city, line1, line2, postCode, thana } = { ...dataset }
 
     return (
-        <div>
-            <h4>Shipping Address</h4>
+        <div className='m-auto'>
+            <h4 className='text-justify text-2xl'>Shipping Address</h4>
             <div>
                 <div className='flex gap-4'>
                     <RenderItemDetail preText={"Address Line 1: "} value={line1} />
                     <RenderItemDetail preText={"Address Line 2: "} value={line2} />
                 </div>
-                <div  className='flex gap-4'>
+                <div className='flex gap-4'>
                     <RenderItemDetail preText={"Post Code: "} value={postCode} />
                     <RenderItemDetail preText={"Thana: "} value={thana} />
                     <RenderItemDetail preText={"City: "} value={city} />
@@ -73,8 +78,8 @@ const RenderOrderItemsDetail = ({ items }) => {
     let renderItems = () => itemsFormatted.map(item => <RenderOrderItemDetail key={item.id} item={item} />)
 
     return (
-        <div>
-            <h4>Order Items</h4>
+        <div className='m-auto mb-6'>
+            <h4 className='text-justify text-2xl'>Order Items</h4>
             {renderItems()}
         </div>
     )

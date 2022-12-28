@@ -31,7 +31,7 @@ function CustomerLoginPage() {
     // console.log(appCtx.user, "logged USER!!")
 
     return (
-        <div className='flex justify-center'>
+        <div className='flex justify-center my-16'>
             <LoginForm commenceLogin={commenceCustomerLogin} />
         </div>
     )
@@ -61,7 +61,7 @@ const LoginForm = ({commenceLogin}) => {
             method='post' onSubmit={handleSubmit}
             className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
         >
-            <legend>Enter your registered Mobile Number and Password to login</legend>
+            <legend className='text-2xl'>Enter your registered Mobile Number and Password to login</legend>
             {renderFormControls()}
             <RenderFormSubmitButton text={"Login"} />
         </form>

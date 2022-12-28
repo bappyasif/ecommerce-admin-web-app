@@ -9,5 +9,6 @@
     background-repeat: no-repeat;
     image-rendering: optimizeSpeed;
     background-size: cover;
+    background-blend-mode: darken;
   }
 }

@@ -34,8 +34,9 @@ const RenderAllOrdersList = ({ orders }) => {
 const RenderOrderListItem = ({ dataset }) => {
     const { id, items, totalPrice, shippingAddress, billingMethod } = { ...dataset }
     return (
-        <li className='flex gap-4 justify-around border-2 my-2'>
-            <Link className='self-center bg-teal-400 px-4 hover:bg-teal-900 hover:text-white' to={`${id}`}>View Details</Link>
+        <li className='flex gap-4 justify-around border-2 my-2 pb-8 pt-4
+        bg-gradient-to-r from-cyan-500 to-blue-500'>
+            <Link className='text-4xl self-center bg-teal-400 px-4 hover:bg-emerald-600 hover:text-white' to={`${id}`}>View Details</Link>
             <RenderOrderItemsDetail items={items} />
             <RenderOrderShippingAddress dataset={shippingAddress} />
             <RenderBillingMethod billingMethod={billingMethod} />
@@ -47,8 +48,8 @@ const RenderOrderListItem = ({ dataset }) => {
 export const RenderTotalPrice = ({price}) => {
     return (
         <div>
-            <h4>Total Price</h4>
-            <p>{price}</p>
+            <h4 className='text-justify text-2xl'>Total Price</h4>
+            <p className='text-justify text-4xl'>{price}</p>
         </div>
     )
 }
@@ -56,8 +57,8 @@ export const RenderTotalPrice = ({price}) => {
 export const RenderBillingMethod = ({billingMethod}) => {
     return (
         <div>
-            <h4>Billing Method</h4>
-            <p>{billingMethod}</p>
+            <h4 className='text-justify text-2xl'>Billing Method</h4>
+            <p className='text-justify text-2xl'>{billingMethod}</p>
         </div>
     )
 }
@@ -67,7 +68,7 @@ const RenderOrderShippingAddress = ({ dataset }) => {
 
     return (
         <div>
-            <h4>Shipping Address</h4>
+            <h4 className='text-justify text-2xl'>Shipping Address</h4>
             <div className='flex gap-4'>
                 <RenderItemDetail preText={"Post Code: "} value={postCode} />
                 <RenderItemDetail preText={"Thana: "} value={thana} />
@@ -90,7 +91,7 @@ export const RenderOrderItemsDetail = ({ items }) => {
 
     return (
         <div>
-            <h4>Order Items</h4>
+            <h4 className='text-justify text-2xl'>Order Items</h4>
             {renderItems()}
         </div>
     )
@@ -110,7 +111,7 @@ const RenderOrderItemDetail = ({ item }) => {
 
 export const RenderItemDetail = ({ preText, value }) => {
     return (
-        <p><span>{preText}: </span> <span>{value}</span></p>
+        <p><span className='text-justify text-xl'>{preText}: </span> <span className='text-justify text-2xl'>{value}</span></p>
     )
 }
 

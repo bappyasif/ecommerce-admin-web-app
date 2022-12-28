@@ -40,8 +40,8 @@ const RenderCustomer = ({ dataset }) => {
     const url = `${appCtx.baseUrl}/all-customers/${mobileNumber}`
 
     return (
-        <div>
-            <img src='https://source.unsplash.com/featured/300x202' />
+        <div className='max-w-fit m-auto rounded-lg shadow-lg bg-slate-200 p-8 px-16 mt-11'>
+            <img className='rounded-t-lg w-full h-full' src='https://source.unsplash.com/featured/300x202' />
             <RenderItemDetail preText={"Customer Name: "} value={customerName} />
             <RenderItemDetail preText={"Mobile Number: "} value={mobileNumber} />
             <RenderItemDetail preText={"Hashed Password: "} value={hashedPassword} />
