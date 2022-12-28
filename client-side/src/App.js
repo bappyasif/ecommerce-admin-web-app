@@ -64,7 +64,9 @@ function App() {
 
   return (
     <AppContext.Provider value={contexts}>
-      <div className="App">
+      <div className="App 
+        h-screen"
+        >
         <MainNavigation />
         <Routes>
           <Route path='/' element={<LandingPage />} />

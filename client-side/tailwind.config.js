@@ -4,7 +4,9 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: "url(https://source.unsplash.com/featured/300x201)",
+    },
   },
   plugins: [],
 }
