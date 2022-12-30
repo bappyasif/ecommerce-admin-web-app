@@ -6,6 +6,19 @@ import { AppContext } from '../../App'
 function CartPage() {
     const appCtx = useContext(AppContext);
 
+    const navigate = useNavigate();
+
+    const checkIfUserAuthenticated = () => {
+        if(!appCtx?.user?.accessToken) {
+            alert("You are not logged in, you need to be logged in before completing your order, thank you and happy shopping :)")
+            navigate("/login")
+        }
+    }
+
+    useEffect (() => {
+        checkIfUserAuthenticated()
+    }, [])
+
     return (
         <div>
             <h2 className='font-bold'>My Cart</h2>
@@ -70,8 +83,6 @@ const RenderCart = ({ cart, appCtx }) => {
 
 const RenderItemInCart = ({ item }) => {
     let { title, id, itemCount, itemPrice } = { ...item }
-
-    console.log(title, itemCount, itemPrice)
 
     return (
         <li key={title + id} className='flex gap-2 justify-center'>

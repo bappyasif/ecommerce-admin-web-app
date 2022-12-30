@@ -13,7 +13,7 @@ function AllProductsPage() {
 
     const url = `${appCtx.baseUrl}/all-products`;
 
-    const { dataset } = useToFetchSectionSpecificDataForAdmin(url)
+    const { dataset } = useToFetchSectionSpecificDataForAdmin(url, appCtx)
 
     const handleData = () => {
         setData(dataset)
@@ -37,8 +37,6 @@ function AllProductsPage() {
     // console.log(dataset, "Products!!", data)
     return (
         <div>
-            {/* <h2>List Of All Products</h2> */}
-            {/* <RenderProducts dataset={dataset} /> */}
             <AddNewProduct handleAddProduct={handleAddProduct} />
             <RenderProducts dataset={data} handleRemoveProduct={handleRemoveProduct} />
         </div>
@@ -53,12 +51,12 @@ const AddNewProduct = ({ handleAddProduct }) => {
     return (
         <>
             <button className='text-4xl px-4 py-2 font-extrabold m-4 bg-orange-800 hover:bg-pink-600 relative' onClick={handleClick}>Click Here To {`${beginEntry ? "Close" : "Open"} `} Product Form</button>
-            {beginEntry ? <RenderAddProductForm handleAddProduct={handleAddProduct} /> : null}
+            {beginEntry ? <RenderAddProductForm handleAddProduct={handleAddProduct} handleClick={handleClick} /> : null}
         </>
     )
 }
 
-const RenderAddProductForm = ({ handleAddProduct }) => {
+const RenderAddProductForm = ({ handleAddProduct, handleClick }) => {
     let [data, setData] = useState(null);
 
     const appCtx = useContext(AppContext);
@@ -86,8 +84,8 @@ const RenderAddProductForm = ({ handleAddProduct }) => {
 
     const handleSubmit = evt => {
         evt.preventDefault();
-        console.log(data, "formdaata!!")
         beginEntry();
+        handleClick();
     }
 
     return (
@@ -103,6 +101,7 @@ const RenderAddProductForm = ({ handleAddProduct }) => {
 
 const RenderProducts = ({ dataset, handleRemoveProduct }) => {
     let renderItems = () => dataset?.map(item => <RenderItem key={item.id} item={item} handleRemoveProduct={handleRemoveProduct} />)
+    
     return (
         <ul className='flex gap-11 flex-wrap justify-around'>
             {renderItems()}
@@ -112,8 +111,11 @@ const RenderProducts = ({ dataset, handleRemoveProduct }) => {
 
 const RenderItem = ({ item, handleRemoveProduct }) => {
     const { id, title, description, price, productPicture } = { ...item }
+    
     const appCtx = useContext(AppContext);
+    
     const url = `${appCtx.baseUrl}/all-products/${id}`
+
     return (
         <li className='flex flex-col gap-4 border-2 border-teal-800 my-2
                        rounded-lg shadow-lg bg-slate-200 w-1/3 py-8 px-16'
@@ -133,23 +135,5 @@ const RenderItem = ({ item, handleRemoveProduct }) => {
 
     )
 }
-
-// export const DeleteItem = ({ id, handleRemoveProduct }) => {
-//     const appCtx = useContext(AppContext);
-
-//     const dataHandler = results => {
-//         console.log(results)
-//         handleRemoveProduct && handleRemoveProduct(id);
-//     }
-
-//     const handleClick = () => {
-//         const url = `${appCtx.baseUrl}/all-products/${id}`
-//         deleteDataFromServer(url, dataHandler)
-//     }
-
-//     return (
-//         <button onClick={handleClick}>Delete</button>
-//     )
-// }
 
 export default AllProductsPage

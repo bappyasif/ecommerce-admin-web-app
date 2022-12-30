@@ -2,17 +2,14 @@ import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../../App'
 import { sendDataToServer } from '../fetchRequests';
-import { RenderFormControlFieldset, RenderFormSubmitButton } from './CustomerLoginPage'
+import { checkMobileNumber, RenderFormControlFieldset, RenderFormSubmitButton } from './CustomerLoginPage'
 
 function CustomerRegistrationPage() {
-    // let [user, setUser] = useState({});
-
     const appCtx = useContext(AppContext);
 
     const navigate = useNavigate()
 
     const handleRegistration = (data) => {
-        // setUser(data)
         appCtx.handleUserData(data.user)
         navigate("/login");
     }
@@ -21,9 +18,6 @@ function CustomerRegistrationPage() {
         const url = `${appCtx.baseUrl}/register`;
         sendDataToServer(url, data, handleRegistration)
     }
-
-    // console.log(user, "Registered USER!!")
-    // console.log(appCtx.user, "Registered USER!!")
 
     return (
         <div className='flex justify-center'>
@@ -48,10 +42,13 @@ const RegistrationForm = ({ commenceRegistration }) => {
 
     const handleFormSubmit = (evt) => {
         evt.preventDefault();
-        commenceRegistration(data)
+        // let regExp = /(?:\+)(?=880)\d{13}|(?=880)\d{13}|(?=0)\d{11}/g
+        if(checkMobileNumber(data.digits)) {
+            commenceRegistration(data)
+        } else {
+            alert("Mobile Number needs to be a Bangladeshi Mobile number. Format is +8801234567890")
+        }
     }
-
-    // console.log(data)
 
     return (
         <form

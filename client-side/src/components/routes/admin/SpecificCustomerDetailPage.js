@@ -3,7 +3,6 @@ import { useNavigate, useParams } from 'react-router';
 import { AppContext } from '../../../App';
 import { useToFetchSectionSpecificDataForAdmin } from '../../hooks';
 import { DeleteItem } from './AllCustomersPage';
-import { RenderItemDetail } from './AllOrdersPage';
 import { GoBackToOrders } from './SpecificOrderDetailPage';
 
 function SpecificCustomerDetailPage() {
@@ -14,8 +13,6 @@ function SpecificCustomerDetailPage() {
     const url = `${appCtx.baseUrl}/all-customers/${params.custId}`;
 
     const { dataset } = useToFetchSectionSpecificDataForAdmin(url)
-
-    console.log(dataset, "customer!!")
 
     return (
         <div>
@@ -42,7 +39,6 @@ const RenderCustomer = ({ dataset }) => {
 
     return (
         <div className='max-w-fit m-auto rounded-lg shadow-lg bg-slate-200 p-8 px-16 mt-11'>
-            {/* <img className='rounded-t-lg w-full h-full' src='https://source.unsplash.com/featured/300x202' /> */}
             <img className="rounded-lg shadow-lg antialiased m-auto" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" />
             <RenderDetail preText={"Customer Name: "} value={customerName} />
             <RenderDetail preText={"Mobile Number: "} value={mobileNumber} />

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { AppContext } from '../../../App';
 import { deleteDataFromServer, sendDataToServer } from '../../fetchRequests';
 import { useToFetchSectionSpecificDataForAdmin } from '../../hooks';
-import { RenderFormControlFieldset, RenderFormSubmitButton } from '../CustomerLoginPage';
+import { checkMobileNumber, RenderFormControlFieldset, RenderFormSubmitButton } from '../CustomerLoginPage';
 import { RenderItemDetail } from './AllOrdersPage';
 
 function AllCustomersPage() {
@@ -13,9 +13,7 @@ function AllCustomersPage() {
 
     const url = `${appCtx.baseUrl}/all-customers`;
 
-    const { dataset } = useToFetchSectionSpecificDataForAdmin(url)
-
-    console.log(dataset, "cutomerds!!")
+    const { dataset } = useToFetchSectionSpecificDataForAdmin(url, appCtx)
 
     const handleData = () => {
         setData(dataset)
@@ -53,12 +51,12 @@ const AddNewCustomer = ({ handleAddCustomer }) => {
     return (
         <>
             <button className='text-4xl px-4 py-2 font-extrabold m-4 bg-orange-800 hover:bg-pink-600 relative' onClick={handleClick}>Click Here To {`${beginEntry ? "Close" : "Open"} `} Customer Form</button>
-            {beginEntry ? <RenderAddCustomerForm addNewCustomer={handleAddCustomer} /> : null}
+            {beginEntry ? <RenderAddCustomerForm addNewCustomer={handleAddCustomer} handleClick={handleClick} /> : null}
         </>
     )
 }
 
-const RenderAddCustomerForm = ({ addNewCustomer }) => {
+const RenderAddCustomerForm = ({ addNewCustomer, handleClick }) => {
     let [data, setData] = useState(null);
 
     const appCtx = useContext(AppContext);
@@ -89,8 +87,13 @@ const RenderAddCustomerForm = ({ addNewCustomer }) => {
 
     const handleSubmit = evt => {
         evt.preventDefault();
-        console.log(data, "formdaata!!")
-        beginEntry();
+        // console.log(data, "formdaata!!")
+        if(checkMobileNumber(data.digits)) {
+            beginEntry();
+            handleClick();
+        } else {
+            alert("Mobile Number needs to be a Bangladeshi Mobile number. Format is +8801234567890")
+        }
     }
 
     return (

@@ -3,24 +3,7 @@ import CustomerLoginPage from "./CustomerLoginPage"
 import CustomerRegistrationPage from './CustomerRegistrationPage'
 
 function LandingPage() {
-  // let [allUsers, setAllUsers] = useState([])
-
-  // const appCtx = useContext(AppContext);
-
-  // const handleAllUsers = (datasets) => setAllUsers(datasets)
-
-  // const getAllRegisteredUsers = () => {
-  //   const url = `${appCtx.baseUrl}/all-customers`
-  //   readTokenProtectedDataFromServer(url, handleAllUsers, appCtx.user.accessToken)
-  // }
-
-  // proof of concept that Protected Data is only been delivered when there is a Valid Token exists
-  // useEffect(() => {
-  //   appCtx.user.accessToken && getAllRegisteredUsers()
-  // }, [appCtx.user.accessToken])
-
-  // console.log(allUsers, "ALL USERS!!")
-
+  
   return (
     <div
       className="bg-auto bg-no-repeat bg-center relative bg-img"

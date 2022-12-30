@@ -6,7 +6,7 @@ import { useToFetchDataFromServer } from '../hooks'
 function ProductsPage() {
     const appCtx = useContext(AppContext);
 
-    const url = `${appCtx.baseUrl}/all-products`
+    const url = `${appCtx.baseUrl}/products`
 
     let { data } = useToFetchDataFromServer(url)
 
@@ -22,9 +22,7 @@ const RenderProducts = ({ list }) => {
     let renderList = () => list.map(item => <RenderProduct key={item.id} item={item} />)
 
     return (
-        // className='bg-gradient-to-br from-cyan-500 to-indigo-500'
         <div>
-            {/* <h1>All Products</h1> */}
             <div className='flex justify-between gap-6 flex-wrap px-20'>
                 {renderList()}
             </div>

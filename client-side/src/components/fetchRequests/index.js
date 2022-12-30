@@ -80,9 +80,36 @@ const deleteDataFromServer = (endpoint, dataUpdater) => {
     })
 }
 
+const logoutUserFromApp = (endpoint, data, dataUpdater) => {
+    // console.log(data, "data>><<")
+    fetch(endpoint, {
+        method: "delete",
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    }).then(resp => {
+        if(resp.status >= 200) {
+            return resp.json()
+        }
+    })
+    .catch(err => {
+        dataUpdater({error: "request error!!"})
+        console.log("request error!!", err)
+    })
+    .then(dataset => {
+        dataUpdater(dataset)
+    }).catch(err => {
+        dataUpdater({error: "response error!!"})
+        console.log("response error!!", err)
+    })
+}
+
 export {
     sendDataToServer,
     readTokenProtectedDataFromServer,
     readDataFromServer,
-    deleteDataFromServer
+    deleteDataFromServer,
+    logoutUserFromApp
 }

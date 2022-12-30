@@ -14,8 +14,6 @@ function SpecificProductDetailPage() {
 
     const { dataset } = useToFetchSectionSpecificDataForAdmin(url)
 
-    console.log(dataset, "Product!!")
-
     return (
         <div>
             <h2 className='text-4xl py-2 font-semibold bg-neutral-600 mb-4'>Product Details</h2>
@@ -36,6 +34,7 @@ const RenderProductDetail = ({ dataset }) => {
     }
 
     const appCtx = useContext(AppContext);
+    
     const url = `${appCtx.baseUrl}/all-products/${id}`
 
     return (

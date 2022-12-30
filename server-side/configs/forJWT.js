@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 const generateCustomerAccessToken = (user) => {
-    return jwt.sign(user, process.env.SECRET_TOKEN, {expiresIn: "1d"})
+    return jwt.sign(user, process.env.SECRET_TOKEN, {expiresIn: "30s"})
 }
 
 const generateCustomerRefreshToken = (user) => {
@@ -11,7 +11,8 @@ const generateCustomerRefreshToken = (user) => {
 const verifyCallbackForRefreshToken = (err, user) => {
     if(err) return null
 
-    return generateCustomerAccessToken(user);
+    // return generateCustomerAccessToken(user);
+    return generateCustomerAccessToken({mobileNumber: user.mobileNumber});
 }
 
 const verifyRefreshTokenAndGrantAnotherAccessToken = (refreshToken) => {

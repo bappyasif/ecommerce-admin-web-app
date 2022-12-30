@@ -9,16 +9,15 @@ function CustomerLoginPage() {
     const navigate = useNavigate()
 
     const handleJwt = (data) => {
-        appCtx.handleUserData({accessToken: data.accessToken, refreshToken: data.refreshToken})
+        appCtx.handleUserData({ accessToken: data.accessToken, refreshToken: data.refreshToken })
         navigate("/")
     }
 
     const handleLogin = (data) => {
-        const url = `${appCtx.baseUrl}/accecss-tokens`;
-        // console.log(data?.user?.mobileNumber, "!!", data)
+        const url = `${appCtx.baseUrl}/access-tokens`;
 
-        sendDataToServer(url, {digits: `${data.user.mobileNumber}`}, handleJwt)
-        
+        sendDataToServer(url, { digits: `${data.user.mobileNumber}` }, handleJwt)
+
         // user data will be updated only when there is a valid user exists in response data
         appCtx.handleUserData(data.user)
     }
@@ -28,8 +27,6 @@ function CustomerLoginPage() {
         sendDataToServer(url, data, handleLogin)
     }
 
-    // console.log(appCtx.user, "logged USER!!")
-
     return (
         <div className='flex justify-center'>
             <LoginForm commenceLogin={commenceCustomerLogin} />
@@ -37,7 +34,7 @@ function CustomerLoginPage() {
     )
 }
 
-const LoginForm = ({commenceLogin}) => {
+const LoginForm = ({ commenceLogin }) => {
     let [data, setData] = useState({})
 
     const userInputChangeHandler = (evt, whichFormControl) => setData(prev => ({ ...prev, [whichFormControl]: evt.target.value }))
@@ -49,15 +46,18 @@ const LoginForm = ({commenceLogin}) => {
 
     let renderFormControls = () => formControls.map(item => <RenderFormControlFieldset key={item.id} item={item} />)
 
-    // console.log(data, "form, data!!")
-
     const handleSubmit = (evt) => {
         evt.preventDefault();
-        commenceLogin(data)
+        
+        if (checkMobileNumber(data.digits)) {
+            commenceLogin(data)
+        } else {
+            alert("Mobile Number needs to be a Bangladeshi Mobile number. Format is +8801234567890")
+        }
     }
 
     return (
-        <form 
+        <form
             method='post' onSubmit={handleSubmit}
             className="bg-zinc-400 shadow-md rounded px-8 pt-6 pb-8 mb-4"
         >
@@ -71,8 +71,8 @@ const LoginForm = ({commenceLogin}) => {
 export const RenderFormControlFieldset = ({ item }) => {
     return (
         <fieldset className='my-6'>
-            <label 
-                className='block text-gray-700 text-lg font-bold mb-2 text-justify'
+            <label
+                className='block text-gray-700 text-lg font-bold mb-2 text-justify before:content-["*"] before:mr-2'
                 htmlFor={item.id}
             >{item.label}</label>
             <input
@@ -83,6 +83,7 @@ export const RenderFormControlFieldset = ({ item }) => {
                 onChange={(e) => item.changeHandler(e, item.id)}
                 placeholder={item.placeholder}
                 required
+            // pattern={item.id === "digits" ? "(?:\+)(?=880)\d{13}|(?=880)\d{13}|(?=0)\d{11}" : null}
             />
         </fieldset>
     )
@@ -90,11 +91,17 @@ export const RenderFormControlFieldset = ({ item }) => {
 
 export const RenderFormSubmitButton = ({ text }) => {
     return (
-        <button 
+        <button
             className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"'
             type='submit'
         >{text}</button>
     )
+}
+
+export const checkMobileNumber = (digits) => {
+    let regExp = /(^(\+8801|8801|01|008801))[1|3-9]{1}(\d){8}$/g
+    let check = regExp.test(digits)
+    return check
 }
 
 export default CustomerLoginPage

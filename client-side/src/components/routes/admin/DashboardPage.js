@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { AppContext } from '../../../App';
-import { readDataFromServer, sendDataToServer } from '../../fetchRequests';
+import { readTokenProtectedDataFromServer, sendDataToServer } from '../../fetchRequests';
 import { RenderFormControlFieldset, RenderFormSubmitButton } from "../CustomerLoginPage"
 
 function AdminPage() {
@@ -34,14 +34,16 @@ const AdminDashboard = () => {
 
 const OverviewSection = () => {
     const appCtx = useContext(AppContext);
+    
     const baseUrl = `${appCtx.baseUrl}`
+
     const sections = [
         { url: `${baseUrl}/all-orders`, text: "Total Orders", path: "all-orders", bgClr: "bg-lime-400" },
         { url: `${baseUrl}/all-products`, text: "Total Products", path: "all-products", bgClr: "bg-green-400" },
         { url: `${baseUrl}/all-customers`, text: "Total Customers", path: "all-customers", bgClr: "bg-emerald-400" },
     ];
 
-    let renderSections = () => sections.map(section => <RenderSection key={section.text} item={section} />)
+    let renderSections = () => sections.map(section => <RenderSection key={section.text} item={section} appCtx={appCtx} />)
 
     return (
         <div className='flex justify-around w-full gap-10'>
@@ -50,8 +52,10 @@ const OverviewSection = () => {
     )
 }
 
-const RenderSection = ({ item }) => {
+const RenderSection = ({ item, appCtx }) => {
     let [counts, setCounts] = useState(null);
+    
+    let [getNewToken, setGetNewToken] = useState(false);
 
     const dataHandler = dataset => {
         if (dataset?.users) {
@@ -60,10 +64,41 @@ const RenderSection = ({ item }) => {
             setCounts(dataset.products.length)
         } else if (dataset?.orders) {
             setCounts(dataset.orders.length)
+        } else if (dataset?.msg == "Authentication failed!! Invalid Token!!") {
+            setGetNewToken(true)
         }
     }
 
-    readDataFromServer(item.url, dataHandler)
+    const updateUserDataWithNewToken = results => {
+        appCtx.handleUserData({accessToken: results.accessToken})
+        setGetNewToken(false)
+        // console.log(results, "RESULTS!!")
+        
+        if(results?.accessToken) {
+            readTokenProtectedDataFromServer(item.url, dataHandler, results.accessToken)
+        }
+    }
+
+    // when access token expires, refetches new access token to keep getting access
+    const fetchNewAccessToken = () => {
+        const endpoint = `${appCtx.baseUrl}/new-access-token`;
+        sendDataToServer(endpoint, {refreshToken: appCtx.user.refreshToken}, updateUserDataWithNewToken )
+    }
+
+    useEffect(() => {
+        getNewToken && fetchNewAccessToken()
+    }, [getNewToken])
+
+    // initial privilleged data fetching, with jwt access token
+    const beginFetching = () => {
+        readTokenProtectedDataFromServer(item.url, dataHandler, appCtx.user.accessToken)
+    }
+
+    useEffect(() => {
+        beginFetching()
+    }, [])
+
+    // readDataFromServer(item.url, dataHandler)
 
     return (
         <Link to={`/admin/${item.path}`}>
@@ -90,6 +125,13 @@ const AdminLoginForm = ({ appCtx }) => {
 
     const navigate = useNavigate()
 
+    const checkIfUserIsLoggedIn = () => {
+        if(!appCtx?.user?.accessToken) {
+            alert("You are not logged in, you need to be logged in :)")
+            navigate("/login")
+        }
+    }
+
     const userInputChangeHandler = evt => setAdminSecret(evt.target.value)
 
     const formControls = [
@@ -115,6 +157,10 @@ const AdminLoginForm = ({ appCtx }) => {
         evt.preventDefault()
         handleAdminAccess()
     }
+
+    useEffect(() => {
+        checkIfUserIsLoggedIn()
+    }, [])
 
     let renderFormControls = () => formControls.map(item => <RenderFormControlFieldset key={item.id} item={item} />)
 
